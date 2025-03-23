@@ -18,7 +18,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-    "title": "Meu Título",
+    "title": "Meu Título 2",
     "content": "Meu conteúdo"
 }
 

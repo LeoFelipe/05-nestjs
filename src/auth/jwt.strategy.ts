@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import { Env } from 'src/env'
+import { Env } from '@/env'
 import { z } from 'zod'
 
 const tokenPayloadSchema = z.object({
@@ -17,9 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		const publicKey = config.get('JWT_PUBLIC_KEY', { infer: true })
 
 		super({
-			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() as (
-				req: Request,
-			) => string | null,
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			secretOrKey: Buffer.from(publicKey, 'base64'),
 			algorithms: ['RS256'],
 		})

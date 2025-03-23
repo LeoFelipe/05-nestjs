@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module'
 import { CreateAccountController } from './controllers/accounts/create-account.controller'
 import { AuthenticateAccountController } from './controllers/accounts/authenticate-account.controller'
 import { CreateQuestionController } from './controllers/questions/create-question.controller'
-import { FetchrecentQuestionsController } from './controllers/questions/fetch-recent-questions.controller'
+import { FetchRecentQuestionsController } from './controllers/questions/fetch-recent-questions.controller'
 
 @Module({
 	imports: [
@@ -20,7 +20,7 @@ import { FetchrecentQuestionsController } from './controllers/questions/fetch-re
 		AuthenticateAccountController,
 		CreateAccountController,
 		CreateQuestionController,
-		FetchrecentQuestionsController,
+		FetchRecentQuestionsController,
 	],
 	providers: [PrismaService],
 })
