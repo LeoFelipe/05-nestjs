@@ -25,6 +25,7 @@ beforeAll(async () => {
 	process.env.DATABASE_URL = databaseUrl
 
 	execSync('pnpm prisma migrate deploy')
+	await prisma.$connect()
 })
 
 afterAll(async () => {

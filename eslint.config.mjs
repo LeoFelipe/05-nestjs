@@ -6,7 +6,13 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
 	{
-		ignores: ['eslint.config.mjs', 'src/**/*.spec.ts'],
+		ignores: [
+			'dist',
+			'node_modules',
+			'build',
+			'eslint.config.mjs',
+			'src/**/*.spec.ts',
+		],
 	},
 	eslint.configs.recommended,
 	...tseslint.configs.recommendedTypeChecked,
@@ -26,6 +32,7 @@ export default tseslint.config(
 	},
 	{
 		rules: {
+			'@typescript-eslint/no-new': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-floating-promises': 'warn',
 			'@typescript-eslint/no-unsafe-argument': 'warn',
