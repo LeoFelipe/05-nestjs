@@ -1,14 +1,12 @@
 import { AppModule } from '@/infra/app.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Create Question (e2e)', () => {
+describe('Create Account (E2E)', () => {
 	let app: INestApplication
 	let prisma: PrismaService
-	let jwt: JwtService
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
@@ -18,38 +16,26 @@ describe('Create Question (e2e)', () => {
 		app = moduleRef.createNestApplication()
 
 		prisma = moduleRef.get(PrismaService)
-		jwt = moduleRef.get(JwtService)
 
 		await app.init()
 	})
 
-	test('[POST] /questions', async () => {
-		const user = await prisma.user.create({
-			data: {
-				name: 'Nina',
-				email: 'nina@mail.com',
-				password: '123456',
-			},
-		})
-
-		const accessToken = jwt.sign({ sub: user.id })
+	test('[POST] /accounts', async () => {
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
-
-		const response = await request(httpServer)
-			.post('/questions')
-			.set('Authorization', `Bearer ${accessToken}`)
-			.send({
-				title: 'Meu Título',
-				content: 'Meu conteúdo',
-			})
-
-		const questionOnDatabase = await prisma.question.findFirst({
-			where: {
-				slug: 'meu-titulo',
-			},
+		const response = await request(httpServer).post('/accounts').send({
+			name: 'John Doe',
+			email: 'johndoe@example.com',
+			password: '123456',
 		})
 
 		expect(response.statusCode).toBe(201)
-		expect(questionOnDatabase).toBeTruthy()
+
+		const userOnDatabase = await prisma.user.findUnique({
+			where: {
+				email: 'johndoe@example.com',
+			},
+		})
+
+		expect(userOnDatabase).toBeTruthy()
 	})
 })

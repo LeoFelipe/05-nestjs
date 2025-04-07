@@ -10,15 +10,15 @@ export class InMemoryNotificationsRepository
 		const notification = this.items.find((item) => item.id.toString() === id)
 
 		if (!notification) {
-			return Promise.resolve(null)
+			return await Promise.resolve(null)
 		}
 
-		return Promise.resolve(notification)
+		return await Promise.resolve(notification)
 	}
 
 	async create(notification: Notification) {
 		this.items.push(notification)
-		return Promise.resolve()
+		await Promise.resolve()
 	}
 
 	async save(notification: Notification) {
@@ -27,6 +27,6 @@ export class InMemoryNotificationsRepository
 		)
 
 		this.items[itemIndex] = notification
-		return Promise.resolve()
+		await Promise.resolve()
 	}
 }

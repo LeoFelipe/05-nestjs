@@ -11,7 +11,21 @@ export class InMemoryAnswerAttachmentsRepository
 			(item) => item.answerId.toString() === answerId,
 		)
 
-		return Promise.resolve(answerAttachments)
+		return await Promise.resolve(answerAttachments)
+	}
+
+	async createMany(attachments: AnswerAttachment[]): Promise<void> {
+		this.items.push(...attachments)
+		await Promise.resolve()
+	}
+
+	async deleteMany(attachments: AnswerAttachment[]): Promise<void> {
+		const answerAttachments = this.items.filter((item) => {
+			return !attachments.some((attachment) => attachment.equals(item))
+		})
+
+		this.items = answerAttachments
+		await Promise.resolve()
 	}
 
 	async deleteManyByAnswerId(answerId: string) {
@@ -20,6 +34,6 @@ export class InMemoryAnswerAttachmentsRepository
 		)
 
 		this.items = answerAttachments
-		return Promise.resolve()
+		await Promise.resolve()
 	}
 }

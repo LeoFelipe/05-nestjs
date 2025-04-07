@@ -15,10 +15,10 @@ export class InMemoryAnswersRepository implements AnswersRepository {
 		const answer = this.items.find((item) => item.id.toString() === id)
 
 		if (!answer) {
-			return Promise.resolve(null)
+			return await Promise.resolve(null)
 		}
 
-		return Promise.resolve(answer)
+		return await Promise.resolve(answer)
 	}
 
 	async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
@@ -26,14 +26,17 @@ export class InMemoryAnswersRepository implements AnswersRepository {
 			.filter((item) => item.questionId.toString() === questionId)
 			.slice((page - 1) * 20, page * 20)
 
-		return Promise.resolve(answers)
+		return await Promise.resolve(answers)
 	}
 
 	async create(answer: Answer) {
 		this.items.push(answer)
 
+		await this.answerAttachmentsRepository.createMany(
+			answer.attachments.getItems(),
+		)
+
 		DomainEvents.dispatchEventsForAggregate(answer.id)
-		return Promise.resolve()
 	}
 
 	async save(answer: Answer) {
@@ -41,18 +44,23 @@ export class InMemoryAnswersRepository implements AnswersRepository {
 
 		this.items[itemIndex] = answer
 
+		await this.answerAttachmentsRepository.createMany(
+			answer.attachments.getNewItems(),
+		)
+
+		await this.answerAttachmentsRepository.deleteMany(
+			answer.attachments.getRemovedItems(),
+		)
+
 		DomainEvents.dispatchEventsForAggregate(answer.id)
-		return Promise.resolve()
 	}
 
 	async delete(answer: Answer) {
 		const itemIndex = this.items.findIndex((item) => item.id === answer.id)
 
 		this.items.splice(itemIndex, 1)
-
 		await this.answerAttachmentsRepository.deleteManyByAnswerId(
 			answer.id.toString(),
 		)
-		return Promise.resolve()
 	}
 }
