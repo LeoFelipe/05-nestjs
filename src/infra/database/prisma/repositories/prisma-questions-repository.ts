@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
@@ -51,7 +53,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 
 		if (cacheHit) {
 			const cacheData = JSON.parse(cacheHit)
-			return PrismaQuestionDetailsMapper.toDomain(cacheData)
+			return cacheData
 		}
 
 		const question = await this.prisma.question.findUnique({
@@ -68,9 +70,12 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 			return null
 		}
 
-		await this.cache.set(`question:${slug}:details`, JSON.stringify(question))
-
 		const questionDetails = PrismaQuestionDetailsMapper.toDomain(question)
+
+		await this.cache.set(
+			`question:${slug}:details`,
+			JSON.stringify(questionDetails),
+		)
 
 		return questionDetails
 	}

@@ -41,7 +41,7 @@ import { FetchAnswerCommentsUseCase } from '@/domain/forum/application/use-cases
 import { UploadAttachmentController } from '@/infra/http/controllers/questions/upload-attachment.controller'
 import { StorageModule } from '@/infra/http/storage/storage.module'
 import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
-import { ReadNotificationController } from '@/infra/http/controllers/questions/read-notification.controller'
+import { ReadNotificationController } from '@/infra/http/controllers/notifications/read-notification.controller'
 import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 
 @Module({

@@ -69,7 +69,6 @@ describe('Edit question (E2E)', () => {
 		const questionId = question.id.toString()
 
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
-
 		const response = await request(httpServer)
 			.put(`/questions/${questionId}`)
 			.set('Authorization', `Bearer ${accessToken}`)

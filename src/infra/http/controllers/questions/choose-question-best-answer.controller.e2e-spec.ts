@@ -51,7 +51,6 @@ describe('Choose question best answer (E2E)', () => {
 		const answerId = answer.id.toString()
 
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
-
 		const response = await request(httpServer)
 			.patch(`/answers/${answerId}/choose-as-best`)
 			.set('Authorization', `Bearer ${accessToken}`)

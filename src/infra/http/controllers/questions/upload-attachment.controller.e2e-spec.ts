@@ -28,11 +28,9 @@ describe('Upload attachment (E2E)', () => {
 
 	test('[POST] /attachments', async () => {
 		const user = await studentFactory.makePrismaStudent()
-
 		const accessToken = jwt.sign({ sub: user.id.toString() })
 
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
-
 		const response = await request(httpServer)
 			.post('/attachments')
 			.set('Authorization', `Bearer ${accessToken}`)

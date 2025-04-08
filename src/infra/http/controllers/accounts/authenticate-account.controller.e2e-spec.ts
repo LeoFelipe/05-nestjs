@@ -32,7 +32,7 @@ describe('Authenticate (E2E)', () => {
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
 
 		const response = await request(httpServer).post('/accounts/auth').send({
-			email: 'nina@mail.com',
+			email: 'johndoe@example.com',
 			password: '123456',
 		})
 

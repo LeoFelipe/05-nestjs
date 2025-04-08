@@ -44,7 +44,6 @@ describe('Read notification (E2E)', () => {
 		const notificationId = notification.id.toString()
 
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
-
 		const response = await request(httpServer)
 			.patch(`/notifications/${notificationId}/read`)
 			.set('Authorization', `Bearer ${accessToken}`)

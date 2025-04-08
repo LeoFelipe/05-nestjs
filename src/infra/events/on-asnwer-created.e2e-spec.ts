@@ -31,9 +31,15 @@ describe('On answer created (E2E)', () => {
 		questionFactory = moduleRef.get(QuestionFactory)
 		jwt = moduleRef.get(JwtService)
 
+		// Ensure DomainEvents are reset before enabling to prevent stale handlers
+		DomainEvents.clearHandlers()
 		DomainEvents.shouldRun = true
 
 		await app.init()
+	})
+
+	afterAll(async () => {
+		await app.close()
 	})
 
 	it('should send a notification when answer is created', async () => {
