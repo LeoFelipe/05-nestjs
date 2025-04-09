@@ -2,7 +2,7 @@ import {
 	UploadParams,
 	Uploader,
 } from '@/domain/forum/application/storage/uploader'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 interface Upload {
 	fileName: string
@@ -20,6 +20,6 @@ export class FakeUploader implements Uploader {
 			url,
 		})
 
-		return Promise.resolve({ url })
+		return await Promise.resolve({ url })
 	}
 }

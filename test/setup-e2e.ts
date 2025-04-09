@@ -43,7 +43,7 @@ beforeAll(async () => {
 	await redis.flushdb()
 
 	execSync('pnpm prisma migrate deploy')
-})
+}, 20000)
 
 afterAll(async () => {
 	await prisma.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`)
