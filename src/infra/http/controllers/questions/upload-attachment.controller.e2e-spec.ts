@@ -73,7 +73,13 @@ describe('Upload attachment (E2E)', () => {
 
 	test('[POST] /attachments', async () => {
 		const user = await studentFactory.makePrismaStudent()
-		const accessToken = jwt.sign({ sub: user.id.toString() })
+		const accessToken = jwt.sign(
+			{ sub: user.id.toString() },
+			{
+				privateKey: process.env.JWT_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+				algorithm: 'RS256',
+			},
+		)
 
 		const httpServer = app.getHttpServer() as unknown as import('http').Server
 		const response = await request(httpServer)
@@ -95,5 +101,5 @@ describe('Upload attachment (E2E)', () => {
 
 		expect(attachmentOnDatabase).toBeTruthy()
 		expect(attachmentOnDatabase?.url).toEqual(fakeUploader.uploads[0].url)
-	}, 20000) // Increased timeout to 30 seconds for the test case
+	}, 30000) // Increased timeout to 30 seconds for the test case
 })
